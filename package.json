@@ -11,6 +11,7 @@
   "dependencies": {
     "@slack/events-api": "^2.3.1",
     "cron": "^1.8.1",
+    "dotenv": "^8.2.0",
     "mongoose": "^5.8.10",
     "node-telegram-bot-api": "^0.40.0",
     "slackbots": "^1.2.0"
