@@ -12,32 +12,33 @@ const slackBot =
     })
 /*
 var initStatus = new buzzerStatus({
-    sendWarningToSlackOrNot: false
+    sendWarningToSlackorNot: false
 })
 writeDataIntoDB(initStatus);
 */
 
 
 
-let checkStatusCron = new CronJob('* 2 * * * * ', async function () {
-    console.log('start checking');
-    var status = await getBuzzerStatus();
-    //console.log(status);
-    sendErrorMessage(status);
+let checkDCStatusCron = new CronJob('* 2 * * * * ', async function () {
+    console.log('start checking DC');
+    var DCstatus = await getDCBuzzerStatus();
+    console.log("DC working", DCstatus);
+    sendDCErrorMessage(DCstatus);
+    changeDCStatusToFalse();
 }, null, true, 'America/Los_Angeles');
-checkStatusCron.start();
+checkDCStatusCron.start();
+
+let checkTGStatusCron = new CronJob('* 2 * * * * ', async function () {
+    console.log('start checking TG');
+    var TGstatus = await getTGBuzzerStatus();
+    sendTGErrorMessage(TGstatus);
+    changeTGStatusToFalse();
+}, null, true, 'America/Los_Angeles');
+checkTGStatusCron.start();
 
 
 
-function changeStatusToFalse() {
-    buzzerStatusDB.updateOne({ index: 0 },
-        { sendWarningToSlackorNot: false }).then(result => {
-            console.log(result);
-        })
-}
-
-
-async function getBuzzerStatus() {
+async function getDCBuzzerStatus() {
     try {
         var buzzerStatus = await buzzerStatusDB.findOne({ index: 0 }).exec();
         var sendorNot = buzzerStatus._doc.sendWarningToSlackorNot;
@@ -48,15 +49,50 @@ async function getBuzzerStatus() {
     }
 }
 
-function sendErrorMessage(status) {
+async function getTGBuzzerStatus() {
+    try {
+        var buzzerStatus = await buzzerStatusDB.findOne({ index: 1 }).exec();
+        var sendorNot = buzzerStatus._doc.sendWarningToSlackorNot;
+        console.log(sendorNot);
+        return sendorNot;
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+
+function sendDCErrorMessage(status) {
     if (!status) {
         slackBot.on('message', () => {
             slackBot.postMessageToChannel(targetChannel, 'DC Bot is not working!');
         })
     } else {
-        slackBot.on('message', () => {
-            changeStatusToFalse();
-            console.log("dc bot alive");
-        })
+        console.log("DC bot alive");
     }
 }
+
+function sendTGErrorMessage(status) {
+    if (!status) {
+        slackBot.on('message', () => {
+            slackBot.postMessageToChannel(targetChannel, 'TG Bot is not working!');
+        })
+    } else {
+        console.log("TG bot alive");
+    }
+}
+
+
+function changeDCStatusToFalse() {
+    buzzerStatusDB.updateOne({ name: "DCBuzzer" },
+        { sendWarningToSlackorNot: false }).then(result => {
+            console.log(result);
+        })
+}
+
+function changeTGStatusToFalse() {
+    buzzerStatusDB.updateOne({ name: "TGBuzzer" },
+        { sendWarningToSlackorNot: false }).then(result => {
+            console.log(result);
+        })
+}
+
