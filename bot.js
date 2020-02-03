@@ -19,7 +19,7 @@ writeDataIntoDB(initStatus);
 
 
 
-let checkDCStatusCron = new CronJob('* 2 * * * * ', async function () {
+let checkDCStatusCron = new CronJob('* 10 * * * * ', async function () {
     console.log('start checking DC');
     var DCstatus = await getDCBuzzerStatus();
     console.log("DC working", DCstatus);
@@ -28,7 +28,7 @@ let checkDCStatusCron = new CronJob('* 2 * * * * ', async function () {
 }, null, true, 'America/Los_Angeles');
 checkDCStatusCron.start();
 
-let checkTGStatusCron = new CronJob('* 2 * * * * ', async function () {
+let checkTGStatusCron = new CronJob('* 10 * * * * ', async function () {
     console.log('start checking TG');
     var TGstatus = await getTGBuzzerStatus();
     sendTGErrorMessage(TGstatus);
