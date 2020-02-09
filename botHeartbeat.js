@@ -16,7 +16,7 @@ var initStatus = new buzzerStatus({
 })
 writeDataIntoDB(initStatus);
 */
-
+process.env.TZ = 'Asia/Shanghai'
 
 let checkDiscordBotAliveSchedule = new schedule.scheduleJob('10 * * * * * ', async function () {
     var discordBotStatus = await getDiscordBotStatus();
@@ -58,7 +58,7 @@ async function getTelegramBotStatus() {
 
 function sendDCErrorMessage(status, time) {
     if (!status) {
-        slackBot.postMessageToChannel(targetChannel, 'Discord Bot is not working at' + time);
+        slackBot.postMessageToChannel(targetChannel, 'Discord Bot is not working at ' + time);
     } else {
         console.log("Discord bot alive");
     }
@@ -66,7 +66,7 @@ function sendDCErrorMessage(status, time) {
 
 function sendTGErrorMessage(status, time) {
     if (!status) {
-        slackBot.postMessageToChannel(targetChannel, 'Telegram Bot is not working at' + time);
+        slackBot.postMessageToChannel(targetChannel, 'Telegram Bot is not working at ' + time);
     } else {
         console.log("Telegram bot alive");
     }

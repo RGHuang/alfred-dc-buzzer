@@ -13,6 +13,7 @@
     "dotenv": "^8.2.0",
     "mongoose": "^5.8.10",
     "node-schedule": "^1.3.2",
+    "node-schedule-tz": "^1.2.1-4",
     "node-telegram-bot-api": "^0.40.0",
     "slackbots": "^1.2.0"
   },
