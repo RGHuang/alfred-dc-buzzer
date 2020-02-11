@@ -18,7 +18,8 @@ mongoose.connect(`${process.env.BUZZER_MONGODB_URL}`, { useNewUrlParser: true })
 var schema = mongoose.Schema;
 //buzzerStatus schema model
 var buzzerStatusSchema = new schema({
-    sendWarningToSlackorNot: Boolean,
+    sendWarningToSlackOrNot: String,
+    awakeOrNot: Boolean,
     index: Number
 });
 
