@@ -4,14 +4,17 @@ let schedule = require('node-schedule');
 // Dependencies
 const buzzerStatus = require('./BuzzerStatus');
 const targetChannel = 'buzzer_alfred';
-const versionText = 'ver 0.1.1';
-const discordBotErrorText = 'Discord Bot ' + versionText + ' stops working at ';
-const telegramBotErrorText = 'Telegram Bot ' + versionText + ' stops working at ';
+const versionText = 'ver 1.0';
+const discordBotErrorText = '【Discord Bot ' + versionText + '】 stopped at ';
+const telegramBotErrorText = '【Telegram Bot ' + versionText + '】 stopped at ';
+const params = {
+    icon_emoji: ':stethoscope_production:'
+}
 
 const slackBot =
     new slackAPI({
         token: `${process.env.SLACK_TOKEN}`,
-        name: 'ALFRED_Bot_Heartbeat'
+        name: 'ALFRED_Bot_Stethoscope (Production)'
     })
 /*
 var initStatus = new buzzerStatus({
@@ -68,7 +71,7 @@ async function getTelegramBotSendOrNotString() {
 
 
 function sendErrorMessageToSlack(message, time) {
-    slackBot.postMessageToChannel(targetChannel, message + time);
+    slackBot.postMessageToChannel(targetChannel, message + time, params);
 }
 
 

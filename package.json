@@ -1,9 +1,9 @@
 {
-  "name": "buzzer",
+  "name": "bot-stethoscope",
   "version": "1.0.0",
-  "main": "botHeartbeat.js",
+  "main": "botStethoscope.js",
   "scripts": {
-    "start": "node botHeartbeat.js",
+    "start": "node botStethoscope.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

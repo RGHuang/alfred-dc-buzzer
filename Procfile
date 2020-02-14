@@ -1,1 +1,1 @@
-worker: node botHeartbeat.js
+worker: node botStethoscope.js
